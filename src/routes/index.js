@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 const controllers = require('../controllers')
 const router = new Router({
-    prefix: '/api'
+    prefix: '/web'
 });
 
 router.get('/getArticleList', controllers.home.getArticleList);
