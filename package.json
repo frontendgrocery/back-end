@@ -1,0 +1,27 @@
+{
+  "name": "frontendgroceryshop",
+  "version": "1.0.0",
+  "description": "前端杂货铺",
+  "main": "app.js",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "knex": "^0.15.2",
+    "koa": "^2.6.1",
+    "koa-router": "^7.4.0",
+    "mysql": "^2.16.0",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "nodemon app.js",
+    "setup": "pm2 deploy ecosystem.json production setup",
+    "deploy": "pm2 deploy ecosystem.json production"
+  },
+  "author": "王云龙",
+  "license": "ISC"
+}

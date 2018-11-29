@@ -1,0 +1,29 @@
+{
+    "apps": [{
+            "name": "frontendgrocery",
+            "script": "app.js",
+            "args": "one two",
+            "instances": 1,
+            "autorestart": true,
+            "watch": false,
+            "max_memory_restart": "1G",
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "env_production": {
+                "NODE_ENV": "production"
+            }
+        }],
+
+        "deploy": {
+            "production": {
+                "user": "root",
+                "host": ["39.106.47.163"],
+                "ssh_options": "StrictHostKeyChecking=no",
+                "ref": "origin/master",
+                "repo": "git@gitee.com:wangyunlong0404/luxixi-server.git",
+                "path": "/var/www/production/luxixi",
+                "post-deploy": "git pull origin master && npm install --registry=https://registry.npm.taobao.org && pm2 startOrRestart ecosystem.json"
+            }
+        }
+}
