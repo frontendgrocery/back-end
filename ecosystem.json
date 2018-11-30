@@ -8,10 +8,10 @@
             "watch": false,
             "max_memory_restart": "1G",
             "env": {
-                "NODE_ENV": "development"
-            },
-            "env_production": {
                 "NODE_ENV": "production"
+            },
+            "env_dev": {
+                "NODE_ENV": "development"
             }
         }],
 
@@ -23,7 +23,7 @@
                 "ref": "origin/master",
                 "repo": "git@github.com:frontendgrocery/back-end.git",
                 "path": "/var/www/production/grocery-back-end",
-                "post-deploy": "git pull origin master && npm install --registry=https://registry.npm.taobao.org && pm2 startOrRestart ecosystem.json"
+                "post-deploy": "git pull origin master && pm2 startOrRestart ecosystem.json --env production"
             }
         }
 }

@@ -60,7 +60,8 @@ const saveArticle = async (entrylist) => {
                original_url: originalUrl,
                check_status: checkStatus ? 0 : 1,
                object_id: objectId,
-               user_info: JSON.stringify(user)
+               user_info: JSON.stringify(user),
+               channel: '掘金'
            }
 
            const selectResult = await mysql('articles').select().where('object_id', objectId);
