@@ -19,8 +19,6 @@ const db = {
     }
 }
 
-console.log(db[env]);
-
 
 module.exports = {
     port: 8082,
