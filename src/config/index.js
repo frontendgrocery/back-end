@@ -10,7 +10,7 @@ const db = {
         char: 'utf8mb4'
     },
     production: {
-        host: '127.0.0.1',
+        host: '39.106.47.163',
         port: 3306,
         user: 'root',
         db: 'front_end_article',
