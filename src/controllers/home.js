@@ -10,14 +10,18 @@ const getArticleList = async (ctx) => {
         category: '5562b415e4b00c57d9b94ac8',
         limit: 2,
     }
-    const res = await get(url.getArticleList, data);
-    const {
-        entrylist
-    } = res;
+    try {
+        const res = await get(url.getArticleList, data);
+        const {
+            entrylist
+        } = res;
 
-    ctx.state.data = {
-        list: await getArticle(entrylist)
-    };
+        ctx.state.data = {
+            list: await getArticle(entrylist)
+        };
+    } catch(err) {
+        console.log(err);
+    }
 }
 
 
@@ -64,18 +68,29 @@ const saveArticle = async (entrylist) => {
                channel: '掘金'
            }
 
-           const selectResult = await mysql('articles').select().where('object_id', objectId);
-
-           if (selectResult.length === 0) {
-               await mysql('articles').insert(itemInfo);
+           try {
+                const selectResult = await mysql('articles').select().where('object_id', objectId);
+                if (selectResult.length === 0) {
+                    try {
+                        await mysql('articles').insert(itemInfo);
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
+           } catch(err) {
+                console.log(err);
            }
        })
 }
 
 const getArticle = async (entrylist) => {
-    await saveArticle(entrylist);
-
-    return await mysql('articles').select('*');
+    try {
+        await saveArticle(entrylist);
+        
+        return await mysql('articles').select('*');
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 module.exports = {
