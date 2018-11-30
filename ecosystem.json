@@ -23,7 +23,7 @@
                 "ref": "origin/master",
                 "repo": "git@github.com:frontendgrocery/back-end.git",
                 "path": "/var/www/production/grocery-back-end",
-                "post-deploy": "git pull origin master && pm2 startOrRestart ecosystem.json --env production"
+                "post-deploy": "git pull origin master && npm install && pm2 startOrRestart ecosystem.json --env production"
             }
         }
 }
