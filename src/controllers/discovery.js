@@ -10,9 +10,13 @@ import url from '../config/url';
  * @param {*} ctx 
  */
 const getChannelList = async (ctx) => {
-    const channelList = await mysql('channels').select();
-    ctx.state.data = {
-        channelList
+    try {
+        const channelList = await mysql('channels').select();
+        ctx.state.data = {
+            channelList
+        }
+    } catch (err) {
+        console.log(err);
     }
 }
 
@@ -22,12 +26,16 @@ const getChannelList = async (ctx) => {
  */
 
 const getArticleList = async (ctx) => {
-    const { channelId } = ctx.request.query;
-    let res;
-    res = await getJuejinrticleList(channelId);
+    try {
+        const { channelId } = ctx.request.query;
+        let res;
+        res = await getJuejinrticleList(channelId);
 
-    ctx.state.data = {
-        list: res
+        ctx.state.data = {
+            list: res
+        }
+    } catch(err) {
+        console.log(err);
     }
 }
 
@@ -36,12 +44,16 @@ const getArticleList = async (ctx) => {
  * @param {*}  
  */
 const getFavorateList = async (ctx) => {
-    const favorateList = await mysql('articles')
-                                .select()
-                                .orderBy('hot_index', 'desc')
-                                .limit(3)
-    ctx.state.data = {
-        list: favorateList
+    try {
+        const favorateList = await mysql('articles')
+            .select()
+            .orderBy('hot_index', 'desc')
+            .limit(3)
+        ctx.state.data = {
+            list: favorateList
+        }
+    } catch(err) {
+        console.log(err);
     }
 }
 
@@ -52,18 +64,21 @@ const getFavorateList = async (ctx) => {
  * @param {*} channelId 
  */
 const getJuejinrticleList = async (channelId) => {
+    try {
+        const data = {
+            src: 'web',
+            category: '5562b415e4b00c57d9b94ac8',
+            limit: 2,
+        }
+        const res = await get(url.getArticleList, data);
+        const {
+            entrylist
+        } = res;
 
-    const data = {
-        src: 'web',
-        category: '5562b415e4b00c57d9b94ac8',
-        limit: 2,
+        return await getArticle(entrylist, channelId);
+    } catch(err) {
+        console.log(err);
     }
-    const res = await get(url.getArticleList, data);
-    const {
-        entrylist
-    } = res;
-    
-    return await getArticle(entrylist, channelId);
 }
 /**
  * 入库
@@ -113,10 +128,14 @@ const saveArticle = async (entrylist, channelId) => {
             channel: channelConf[channelId - 1]
         }
 
-        const selectResult = await mysql('articles').select().where('object_id', objectId);
+        try {
+            const selectResult = await mysql('articles').select().where('object_id', objectId);
 
-        if (selectResult.length === 0) {
-            await mysql('articles').insert(itemInfo);
+            if (selectResult.length === 0) {
+                await mysql('articles').insert(itemInfo);
+            }
+        } catch(err) {
+            console.log(err);
         }
     })
 }
@@ -126,11 +145,15 @@ const saveArticle = async (entrylist, channelId) => {
  * @param {*} ctx 
  */
 const getArticle = async (entrylist, channelId) => {
-    await saveArticle(entrylist, channelId);
+    try {
+        await saveArticle(entrylist, channelId);
 
-    return await mysql('articles')
-                    .select()
-                    .orderBy('id', 'desc')
+        return await mysql('articles')
+            .select()
+            .orderBy('id', 'desc')
+    } catch(err) {
+        console.log(err);
+    }
 }
 
 module.exports = {
