@@ -10,6 +10,7 @@ const getArticleList = async (ctx) => {
         category: '5562b415e4b00c57d9b94ac8',
         limit: 2,
     }
+
     try {
         const res = await get(url.getArticleList, data);
         const {
@@ -26,7 +27,7 @@ const getArticleList = async (ctx) => {
 
 
 const saveArticle = async (entrylist) => {
-       entrylist.map(async (item, index) => {
+        entrylist.map(async (item, index) => {
            const {
                collectionCount,
                commentsCount,
@@ -71,13 +72,9 @@ const saveArticle = async (entrylist) => {
            try {
                 const selectResult = await mysql('articles').select().where('object_id', objectId);
                 if (selectResult.length === 0) {
-                    try {
-                        await mysql('articles').insert(itemInfo);
-                    } catch (err) {
-                        console.log(err);
-                    }
+                    await mysql('articles').insert(itemInfo);
                 }
-           } catch(err) {
+           } catch (err) {
                 console.log(err);
            }
        })
@@ -86,9 +83,9 @@ const saveArticle = async (entrylist) => {
 const getArticle = async (entrylist) => {
     try {
         await saveArticle(entrylist);
-        
+
         return await mysql('articles').select('*');
-    } catch (err) {
+    } catch(err) {
         console.log(err);
     }
 }
